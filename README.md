@@ -10,5 +10,6 @@
  Fear and Greed Index for the cryptocurrency market once daily.
  This bot finds the Fear and Greed Index information from the site 
  and tweets them out everyday.
+ 
  Twitter Bot: https://twitter.com/FearAndGreedBot
 
