@@ -1,7 +1,6 @@
 # Fear-and-Greed-Bot
-This is the Repository for the Cryptocurrency Fear and Greed Twitter Bot (@FearandGreedBot). 
 
- BACKGROUND: The Cryptocurrency Fear and Greed Index is a number that displays the current
+ The Cryptocurrency Fear and Greed Index is a number that displays the current
  sentiment towards Bitcoin and other cryptocurrencies. The number ranges from 0-100, as 0 being
  extreme fear and 100 being extreme greed. Extreme fear can be a sign that investors are too worried.
  That could be a buying opportunity. When Investors are getting too greedy, that means the market
