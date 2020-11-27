@@ -27,13 +27,8 @@ var ranking="";
 var FGIndex="0";
 var url = "https://alternative.me/crypto/fear-and-greed-index/";
 
-
-
 //tweets once every 24 hours
-
-
 setInterval(sendTweet , 86400000);
-
 
  //Parses the website for the Fear and Greed Index information and then tweets it.
  function sendTweet(url, callback ){
@@ -75,8 +70,7 @@ setInterval(sendTweet , 86400000);
 	 }else if(ranking == "neutral"){
 	 	 ranking ="Neutral";
 	 }
-
-	 
+ 
 	 console.log("TWEET:");
 	 console.log("Today's Cryptocurrency Fear And Greed Index: " + FGIndex + "\n\nRanking: "+ ranking+ "\n\n\n#Crypto #Bitcoin #Ethereum");
 	 //Tweets the FGI
@@ -91,20 +85,16 @@ setInterval(sendTweet , 86400000);
 		 if(err) {
   			 console.log("Something went wrong! Will attempt to tweet again... ");
   			 sendTweet();
-
   		 }else {
   			 console.log("Tweeted!");
 
   		 }
 	 }
- 		 
-		
-
+ 			
 	 });
 
  }
  function SearchForWord($, word){
-	
 	return(bodyText.indexOf(word.toLowerCase()));
 
  }
