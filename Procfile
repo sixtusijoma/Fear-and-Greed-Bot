@@ -1,0 +1,1 @@
+worker: node FGIBot1.js

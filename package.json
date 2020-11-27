@@ -1,0 +1,18 @@
+{
+  "name": "npm_node2",
+  "version": "1.0.0",
+  "description": "Used for twitter bot",
+  "main": "bot.js",
+  "dependencies": {
+    "cheerio": "^0.22.0",
+    "request": "^2.88.2",
+    "twit": "^2.2.11",
+    "url-parse": "^1.0.5"
+  },
+  "devDependencies": {},
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Sixtus Ijoma",
+  "license": "ISC"
+}
