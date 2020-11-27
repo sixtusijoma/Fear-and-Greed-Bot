@@ -10,6 +10,6 @@ This is the Repository for the Cryptocurrency Fear and Greed Twitter Bot (@Feara
  The website "https://alternative.me/crypto/fear-and-greed-index/" calculates and posts the 
  Fear and Greed Index for the cryptocurrency market once daily.
  This bot finds the Fear and Greed Index information from the site 
- and tweets them out (@FearAndGreedBot) everyday, a couple hours after they are updated.
- "FG" is an abbreviation for Fear and Greed in variable names.
+ and tweets them out (@FearAndGreedBot) everyday.
+ 
 
