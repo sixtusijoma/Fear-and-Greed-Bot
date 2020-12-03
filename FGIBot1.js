@@ -27,6 +27,7 @@ var ranking="";
 var FGIndex="0";
 var url = "https://alternative.me/crypto/fear-and-greed-index/";
 
+console.log("FGIBot has ben started.");
 //tweets once every 24 hours
 setInterval(sendTweet , 86400000);
 
