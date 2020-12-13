@@ -20,7 +20,7 @@ var Twit = require('twit');
 var config = require('./config');
 var T = new Twit(config);
 
-
+var DAY_IN_MS = 86400000; //number of milliseconds in 24 hours
 var SEARCH_WORD = "now";
 var bodyText= "";
 var ranking="";
@@ -29,7 +29,7 @@ var url = "https://alternative.me/crypto/fear-and-greed-index/";
 
 console.log("FGIBot has ben started.");
 //tweets once every 24 hours
-setInterval(sendTweet , 86400000);
+setInterval(sendTweet , DAY_IN_MS);
 
  //Parses the website for the Fear and Greed Index information and then tweets it.
  function sendTweet(url, callback ){
