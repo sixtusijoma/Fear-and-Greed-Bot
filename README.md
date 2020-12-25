@@ -9,7 +9,7 @@
  The website "https://alternative.me/crypto/fear-and-greed-index/" calculates and posts the 
  Fear and Greed Index for the cryptocurrency market once daily.
  This bot finds the Fear and Greed Index information from the site 
- and tweets them out everyday at 8:00 PM.
+ and tweets them out everyday at 1:00 AM UTC (8:00 PM EST, one hour after the Fear and Greed Index has been calculated).
  
  Twitter Bot: https://twitter.com/FearAndGreedBot
 
