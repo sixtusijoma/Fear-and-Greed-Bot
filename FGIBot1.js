@@ -13,6 +13,7 @@
  "FG" is an abbreviation for Fear and Greed in variable names.
 */
 
+
 var request = require('request');
 var cheerio = require('cheerio');
 var URL = require('url-parse');
@@ -27,20 +28,23 @@ var ranking="";
 var FGIndex="0";
 var url = "https://alternative.me/crypto/fear-and-greed-index/";
 
-
 console.log("The updated FGIBot has been started.");
 
+ //tweets once everyday at 8:00 PM EST (1am utc)
+ var j = schedule.scheduleJob({hour: 1, minute: 0}, function(url, callback ){
+ 	sendTweet();
 
- //Parses the website for the Fear and Greed Index information and then tweets it everyday at 8:00 PM 
- 
- var j = schedule.scheduleJob({hour: 20, minute: 0}, function(url, callback ){
+});
+
+//Parses the website for the Fear and Greed Index information and then tweets it.
+function sendTweet() { 
 	 var FGIRoughStartIndex=0; //index number for where the FGIndex information starts in the bodyText
 	 var FGRoughIndex="";//Gets the substring of the FGIndex information (the index number and ranking)
 
 	 //Accesses the website
 	 request("https://alternative.me/crypto/fear-and-greed-index/", function(error, response, body) {
 	 if(error) {
-    	  	console.log("Error: " + error);
+    	 console.log("Error: " + error);
   	 }
 	 console.log("Status code: " + response.statusCode);
 	 //Checks the Status code. (200 is HTTP Ok)
@@ -81,24 +85,19 @@ console.log("The updated FGIBot has been started.");
 		status: "Today's Cryptocurrency Fear And Greed Index: " + FGIndex + "\n\nRanking: "+ ranking+ "\n\n\n#Crypto #Bitcoin #Ethereum"
 
 	 }
- 
+	 
 	 T.post('statuses/update', tweet, tweeted);
 	 function tweeted(err, data, response) {
 		 if(err) {
   			 console.log("Something went wrong! Will attempt to tweet again... ");
   			 sendTweet();
-
   		 }else {
   			 console.log("Tweeted!");
   		 }
 	 }
- 		 
 	 });
+ }
 
- });
-//Searches for a word in the body of text
  function SearchForWord($, word){
-	
 	return(bodyText.indexOf(word.toLowerCase()));
-
  }
