@@ -30,7 +30,7 @@ var url = "https://alternative.me/crypto/fear-and-greed-index/";
 
 console.log("The updated FGIBot has been started.");
 
- //tweets once everyday at 8:00 PM EST (1am utc)
+ //tweets once everyday at 8:00 PM EST (1am UTC which is the clock used by Heroku)
  var j = schedule.scheduleJob({hour: 1, minute: 0}, function(url, callback ){
  	sendTweet();
 
@@ -65,16 +65,23 @@ function sendTweet() {
 	 FGIndex =FGIndex.trim();
 	 FGIndex=FGIndex.substr(ranking.length,(FGIndex.length- ranking.length ));
 	 FGIndex =FGIndex.trim();
-	 if(ranking == "extreme greed"){
-	 	 ranking = "Extreme Greed";
-	 }else if(ranking == "greed" ){
-	 	 ranking ="Greed";
-	 }else if(ranking =="extreme fear"){
-	 	 ranking= "Extreme Fear";
-	 }else if(ranking== "fear" ){
-	 	 ranking= "Fear";
-	 }else if(ranking == "neutral"){
-	 	 ranking ="Neutral";
+		 	 
+	 switch (ranking) {
+	 	case "extreme greed":
+	 		ranking = "Extreme Greed";
+	 		break;
+	 	case "greed":
+	 		ranking = "Greed";
+	 		break;
+	 	case "extreme fear":	
+			ranking = "Extreme Fear";
+	 		break;
+	 	case "fear":
+			ranking = "Fear";
+	 		break;
+	 	case "neutral":
+	 		ranking ="Neutral";
+	 		break;
 	 }
 		 
 	 console.log("TWEET:");
