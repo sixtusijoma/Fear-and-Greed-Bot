@@ -35,7 +35,6 @@ console.log("The updated FGIBot has been started.");
  	sendTweet();
 
 });
-
 //Parses the website for the Fear and Greed Index information and then tweets it.
 function sendTweet() { 
 	 var FGIRoughStartIndex=0; //index number for where the FGIndex information starts in the bodyText
@@ -82,17 +81,12 @@ function sendTweet() {
 	 	case "neutral":
 	 		ranking ="Neutral";
 	 		break;
-	 }
-		 
+	 }	 
 	 console.log("TWEET:");
 	 console.log("Today's Cryptocurrency Fear And Greed Index: " + FGIndex + "\n\nRanking: "+ ranking+ "\n\n\n#Crypto #Bitcoin #Ethereum");
-	 //Tweets the FGI
-	 
 	 var tweet = {
 		status: "Today's Cryptocurrency Fear And Greed Index: " + FGIndex + "\n\nRanking: "+ ranking+ "\n\n\n#Crypto #Bitcoin #Ethereum"
-
-	 }
-	 
+	 } 
 	 T.post('statuses/update', tweet, tweeted);
 	 function tweeted(err, data, response) {
 		 if(err) {
@@ -104,7 +98,6 @@ function sendTweet() {
 	 }
 	 });
  }
-
  function SearchForWord($, word){
 	return(bodyText.indexOf(word.toLowerCase()));
  }
