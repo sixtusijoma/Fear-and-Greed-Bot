@@ -1,16 +1,13 @@
 {
-  "name": "npm_node2",
+  "name": "fear-and-greed-bot",
   "version": "1.0.0",
   "description": "Used for twitter bot",
-  "main": "bot.js",
+  "main": "FearAndGreedIndexBot.js",
   "dependencies": {
-    "cheerio": "^0.22.0",
-    "request": "^2.88.2",
-    "twit": "^2.2.11",
-    "url-parse": "^1.0.5"
+    "twitter-api-v2": "^1.29.1"
   },
-  "devDependencies": {},
   "scripts": {
+    "start": "node --env-file=.env FearAndGreedIndexBot.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "author": "Sixtus Ijoma",
