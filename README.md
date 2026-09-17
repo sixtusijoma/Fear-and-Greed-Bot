@@ -9,6 +9,6 @@
  The website "https://alternative.me/crypto/fear-and-greed-index/" calculates and posts the
  Fear and Greed Index for the cryptocurrency market once daily.
  This bot reads the index from that site's API, along with current Bitcoin and Ethereum prices
- from CoinGecko, and tweets them out everyday at 1:00 AM UTC (8:00 PM EST).
+ from CoinGecko, and tweets them out once a day after the Fear and Greed Index is updated.
 
  Twitter Bot: https://twitter.com/FearAndGreedBot
