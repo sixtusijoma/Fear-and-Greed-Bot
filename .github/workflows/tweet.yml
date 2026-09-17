@@ -12,6 +12,7 @@ permissions:
 jobs:
   tweet:
     runs-on: ubuntu-latest
+    environment: fear-and-greed-index-bot
     steps:
       - uses: actions/checkout@v4
 
