@@ -15,16 +15,11 @@
 */
 
 const { TwitterApi } = require("twitter-api-v2");
-const fs = require("fs");
-const path = require("path");
 
 const FNG_URL = "https://api.alternative.me/fng/";
 const PRICE_URL = "https://api.coingecko.com/api/v3/simple/price?ids=bitcoin,ethereum&vs_currencies=usd&include_24hr_change=false";
 
 const CREDENTIAL_VARS = ["CONSUMER_KEY", "CONSUMER_SECRET", "ACCESS_TOKEN", "ACCESS_TOKEN_SECRET"];
-
-const HISTORY_PATH = path.join(__dirname, "history.csv");
-const HISTORY_HEADER = "date,index,classification,btc_usd,eth_usd,tweet_id";
 
 sendTweet();
 
@@ -67,33 +62,9 @@ async function sendTweet() {
 
 		const result = await client.v2.tweet(tweet);
 		console.log("Tweeted:", result.data.id);
-
-		appendHistory({
-			date: new Date(Number(fng.data[0].timestamp) * 1000).toISOString().slice(0, 10),
-			index: fng.data[0].value,
-			classification: fng.data[0].value_classification,
-			btc: prices.bitcoin.usd,
-			eth: prices.ethereum.usd,
-			tweetId: result.data.id,
-		});
 	} catch (err) {
 		const detail = err.data ? JSON.stringify(err.data) : err.message;
 		console.log("Could not build or post tweet:", detail);
 		process.exitCode = 1;
 	}
-}
-
-function appendHistory(entry) {
-	const existing = fs.existsSync(HISTORY_PATH) ? fs.readFileSync(HISTORY_PATH, "utf8") : "";
-
-	if (existing.split("\n").some(line => line.startsWith(entry.date + ","))) {
-		console.log("History already has a row for " + entry.date + ", not appending.");
-		return;
-	}
-
-	const row = [entry.date, entry.index, entry.classification, entry.btc, entry.eth, entry.tweetId].join(",");
-	const prefix = existing === "" ? HISTORY_HEADER + "\n" : "";
-
-	fs.appendFileSync(HISTORY_PATH, prefix + row + "\n");
-	console.log("Logged history for " + entry.date + ".");
 }

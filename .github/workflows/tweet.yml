@@ -1,13 +1,7 @@
 name: Tweet Fear and Greed Index
 
 on:
-  schedule:
-    # 01:00 UTC daily
-    - cron: "0 1 * * *"
   workflow_dispatch:
-
-permissions:
-  contents: write
 
 jobs:
   tweet:
@@ -29,13 +23,3 @@ jobs:
           CONSUMER_SECRET: ${{ secrets.CONSUMER_SECRET }}
           ACCESS_TOKEN: ${{ secrets.ACCESS_TOKEN }}
           ACCESS_TOKEN_SECRET: ${{ secrets.ACCESS_TOKEN_SECRET }}
-
-      - name: Commit history
-        run: |
-          git config user.name "github-actions[bot]"
-          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          git add history.csv
-          if ! git diff --staged --quiet; then
-            git commit -m "Log Fear and Greed Index"
-            git push
-          fi
