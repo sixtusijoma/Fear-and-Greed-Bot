@@ -9,7 +9,7 @@
  The website "https://alternative.me/crypto/fear-and-greed-index/" calculates and posts the
  Fear and Greed Index for the cryptocurrency market once daily.
  This bot reads the index from that site's API, along with current Bitcoin and
- Ethereum prices, and tweets them out.
+ Ethereum prices and their 24-hour changes, and tweets them out.
 
  The tweet runs once per invocation and then exits.
 */
@@ -17,7 +17,8 @@
 const { TwitterApi } = require("twitter-api-v2");
 
 const FNG_URL = "https://api.alternative.me/fng/";
-const PRICE_URL = "https://api.coingecko.com/api/v3/simple/price?ids=bitcoin,ethereum&vs_currencies=usd&include_24hr_change=false";
+// usd_24h_change is the percent move versus USD over the last 24 hours.
+const PRICE_URL = "https://api.coingecko.com/api/v3/simple/price?ids=bitcoin,ethereum&vs_currencies=usd&include_24hr_change=true";
 
 const CREDENTIAL_VARS = ["CONSUMER_KEY", "CONSUMER_SECRET", "ACCESS_TOKEN", "ACCESS_TOKEN_SECRET"];
 
@@ -42,8 +43,8 @@ async function sendTweet() {
 
 		const tweet = "Today's Cryptocurrency Fear And Greed Index: " + fng.data[0].value +
 			"\n\nRanking: " + fng.data[0].value_classification +
-			"\n\nBitcoin Price: $" + prices.bitcoin.usd.toLocaleString("en-US") +
-			"\nEthereum Price: $" + Math.round(prices.ethereum.usd).toLocaleString("en-US") +
+			"\n\nBitcoin Price: " + formatPriceWithDailyChange(prices.bitcoin.usd, prices.bitcoin.usd_24h_change, false) +
+			"\nEthereum Price: " + formatPriceWithDailyChange(prices.ethereum.usd, prices.ethereum.usd_24h_change, true) +
 			"\n\n#Crypto #Bitcoin #Ethereum";
 
 		console.log(tweet);
@@ -67,4 +68,20 @@ async function sendTweet() {
 		console.log("Could not build or post tweet:", detail);
 		process.exitCode = 1;
 	}
+}
+
+function formatPriceWithDailyChange(usd, changePercent, roundPrice) {
+	if (typeof usd !== "number" || !Number.isFinite(usd)) {
+		throw new Error("Price is missing or invalid");
+	}
+	if (typeof changePercent !== "number" || !Number.isFinite(changePercent)) {
+		throw new Error("24h price change is missing or invalid");
+	}
+
+	const amount = roundPrice ? Math.round(usd) : usd;
+	const roundedChange = Number(changePercent.toFixed(2));
+	const sign = roundedChange > 0 ? "+" : roundedChange < 0 ? "-" : "";
+	const percent = sign + Math.abs(roundedChange).toFixed(2);
+
+	return "$" + amount.toLocaleString("en-US") + " (" + percent + "%)";
 }
