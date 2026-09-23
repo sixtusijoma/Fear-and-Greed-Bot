@@ -45,7 +45,7 @@ async function sendTweet() {
 			"\n\nRanking: " + fng.data[0].value_classification +
 			"\n\nBitcoin Price: " + formatPriceWithDailyChange(prices.bitcoin.usd, prices.bitcoin.usd_24h_change, false) +
 			"\nEthereum Price: " + formatPriceWithDailyChange(prices.ethereum.usd, prices.ethereum.usd_24h_change, true) +
-			"\n\n#Crypto $BTC $ETH";
+			"\n\n$BTC $ETH";
 
 		console.log(tweet);
 
@@ -71,13 +71,6 @@ async function sendTweet() {
 }
 
 function formatPriceWithDailyChange(usd, changePercent, roundPrice) {
-	if (typeof usd !== "number" || !Number.isFinite(usd)) {
-		throw new Error("Price is missing or invalid");
-	}
-	if (typeof changePercent !== "number" || !Number.isFinite(changePercent)) {
-		throw new Error("24h price change is missing or invalid");
-	}
-
 	const amount = roundPrice ? Math.round(usd) : usd;
 	const roundedChange = Number(changePercent.toFixed(2));
 	const sign = roundedChange > 0 ? "+" : roundedChange < 0 ? "-" : "";
