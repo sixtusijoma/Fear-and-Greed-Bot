@@ -44,7 +44,7 @@ async function sendTweet() {
 			"\n\nRanking: " + fng.data[0].value_classification +
 			"\n\nBitcoin Price: $" + prices.bitcoin.usd.toLocaleString("en-US") +
 			"\nEthereum Price: $" + Math.round(prices.ethereum.usd).toLocaleString("en-US") +
-			"\n\n#Crypto #Bitcoin #Ethereum";
+			"\n\n$BTC $ETH";
 
 		console.log(tweet);
 
