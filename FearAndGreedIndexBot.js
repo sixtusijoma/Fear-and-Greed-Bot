@@ -45,7 +45,7 @@ async function sendTweet() {
 			"\n\nRanking: " + fng.data[0].value_classification +
 			"\n\nBitcoin Price: " + formatPriceWithDailyChange(prices.bitcoin.usd, prices.bitcoin.usd_24h_change, false) +
 			"\nEthereum Price: " + formatPriceWithDailyChange(prices.ethereum.usd, prices.ethereum.usd_24h_change, true) +
-			"\n\n$BTC $ETH";
+			"\n\n$BTC #ETH";
 
 		console.log(tweet);
 
