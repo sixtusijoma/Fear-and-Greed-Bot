@@ -42,7 +42,7 @@ async function sendTweet() {
 
 		const tweet = "Today's Cryptocurrency Fear And Greed Index: " + fng.data[0].value +
 			"\n\nRanking: " + fng.data[0].value_classification +
-			"\n\nBitcoin Price: " + formatPriceWithDailyChange(Number(bitcoin.price_usd), Number(bitcoin.percent_change_24h), false) +
+			"\n\nBitcoin Price: " + formatPriceWithDailyChange(Number(bitcoin.price_usd), Number(bitcoin.percent_change_24h), true) +
 			"\nEthereum Price: " + formatPriceWithDailyChange(Number(ethereum.price_usd), Number(ethereum.percent_change_24h), true) +
 			"\n\n$BTC #ETH";
 
