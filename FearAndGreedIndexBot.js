@@ -17,8 +17,9 @@
 const { TwitterApi } = require("twitter-api-v2");
 
 const FNG_URL = "https://api.alternative.me/fng/";
-// usd_24h_change is the percent move versus USD over the last 24 hours.
-const PRICE_URL = "https://api.coingecko.com/api/v3/simple/price?ids=bitcoin,ethereum&vs_currencies=usd&include_24hr_change=true";
+// Coinlore ids: 90 = Bitcoin, 80 = Ethereum. Bitstamp is the fallback.
+const PRICE_URL = "https://api.coinlore.net/api/ticker/?id=90,80";
+const FALLBACK_PRICE_URL = "https://www.bitstamp.net/api/v2/ticker/";
 
 const CREDENTIAL_VARS = ["CONSUMER_KEY", "CONSUMER_SECRET", "ACCESS_TOKEN", "ACCESS_TOKEN_SECRET"];
 
@@ -26,25 +27,23 @@ sendTweet();
 
 async function sendTweet() {
 	try {
-		const [fngRes, priceRes] = await Promise.all([
+		const [fngRes, quotes] = await Promise.all([
 			fetch(FNG_URL),
-			fetch(PRICE_URL)
+			fetchPriceQuotes()
 		]);
 
 		if (!fngRes.ok) {
 			throw new Error("Fear and Greed Index fetch failed: " + fngRes.status);
 		}
-		if (!priceRes.ok) {
-			throw new Error("Price fetch failed: " + priceRes.status);
-		}
 
 		const fng = await fngRes.json();
-		const prices = await priceRes.json();
+		const bitcoin = quotes.bitcoin;
+		const ethereum = quotes.ethereum;
 
 		const tweet = "Today's Cryptocurrency Fear And Greed Index: " + fng.data[0].value +
 			"\n\nRanking: " + fng.data[0].value_classification +
-			"\n\nBitcoin Price: " + formatPriceWithDailyChange(prices.bitcoin.usd, prices.bitcoin.usd_24h_change, false) +
-			"\nEthereum Price: " + formatPriceWithDailyChange(prices.ethereum.usd, prices.ethereum.usd_24h_change, true) +
+			"\n\nBitcoin Price: " + formatPriceWithDailyChange(Number(bitcoin.price_usd), Number(bitcoin.percent_change_24h), false) +
+			"\nEthereum Price: " + formatPriceWithDailyChange(Number(ethereum.price_usd), Number(ethereum.percent_change_24h), true) +
 			"\n\n$BTC #ETH";
 
 		console.log(tweet);
@@ -67,6 +66,30 @@ async function sendTweet() {
 		const detail = err.data ? JSON.stringify(err.data) : err.message;
 		console.log("Could not build or post tweet:", detail);
 		process.exitCode = 1;
+	}
+}
+
+async function fetchPriceQuotes() {
+	try {
+		const res = await fetch(PRICE_URL);
+		if (!res.ok) throw new Error(String(res.status));
+		const quotes = await res.json();
+		return {
+			bitcoin: quotes.find(coin => coin.symbol === "BTC"),
+			ethereum: quotes.find(coin => coin.symbol === "ETH")
+		};
+	} catch {
+		const res = await fetch(FALLBACK_PRICE_URL);
+		if (!res.ok) {
+			throw new Error("Price fetch failed: " + res.status);
+		}
+		const quotes = await res.json();
+		const bitcoin = quotes.find(coin => coin.pair === "BTC/USD");
+		const ethereum = quotes.find(coin => coin.pair === "ETH/USD");
+		return {
+			bitcoin: { price_usd: bitcoin.last, percent_change_24h: bitcoin.percent_change_24 },
+			ethereum: { price_usd: ethereum.last, percent_change_24h: ethereum.percent_change_24 }
+		};
 	}
 }
 
